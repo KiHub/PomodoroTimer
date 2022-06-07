@@ -8,7 +8,7 @@
 import SwiftUI
 
 class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
-  
+    
     @Published var progress: CGFloat = 1
     @Published var timerStringValue: String = "00:00"
     @Published var isStarted: Bool = false
@@ -20,20 +20,24 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
     @Published var staticTotalSeconds: Int = 0
     
     @Published var isFinished: Bool = false
+    @Published var isFinishedScreen: Bool = false
+    
+    @Published var staticHour: Int = 0
+    @Published var staticMinute: Int = 0
+    @Published var staticSeconds: Int = 0
     
     
     //MARK: - NSObject
     override init() {
-            super.init()
+        super.init()
         self.authorizeNotification()
-        }
+    }
     
     
     //MARK: - Notification request
     func authorizeNotification() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .alert, .badge]) { _, _ in
         }
-        
         UNUserNotificationCenter.current().delegate = self
         
     }
@@ -45,6 +49,10 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
     
     //MARK: - Start timer
     func startTimer() {
+        staticHour = hour
+        staticMinute = minute
+        staticSeconds = seconds
+        
         withAnimation(.easeInOut(duration: 0.25)){
             isStarted = true
             //MARK: - Settting string timer
@@ -70,20 +78,35 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
         timerStringValue = "00:00"
     }
     
+    //MARK: - Repeat timer
+    
+    func repeatPrepare() {
+        timerStringValue = "00:00"
+        progress = 1
+        totalSeconds = staticTotalSeconds
+        isStarted = true
+        hour = staticHour
+        minute = staticMinute
+        seconds = staticSeconds
+    }
+    
     //MARK: - Update timer
     func updateTimer() {
-        totalSeconds -= 1
-        progress = CGFloat(totalSeconds) / CGFloat(staticTotalSeconds)
-        progress = (progress < 0 ? 0 : progress)
-        hour = totalSeconds / 3600
-        minute = (totalSeconds / 60) % 60
-        seconds = (totalSeconds % 60)
-        timerStringValue = "\(hour == 0 ? "" : "\(hour):")\(minute >= 10 ? "\(minute)":"0\(minute)"):\(seconds >= 10 ? "\(seconds)" : "0\(seconds)")"
-        if hour == 0 && seconds == 0 && minute == 0 {
-            addNotification()
-            isStarted = false
-            print("Timer finished")
-            isFinished = true
+        withAnimation {
+            totalSeconds -= 1
+            progress = CGFloat(totalSeconds) / CGFloat(staticTotalSeconds)
+            progress = (progress < 0 ? 0 : progress)
+            hour = totalSeconds / 3600
+            minute = (totalSeconds / 60) % 60
+            seconds = (totalSeconds % 60)
+            timerStringValue = "\(hour == 0 ? "" : "\(hour):")\(minute >= 10 ? "\(minute)":"0\(minute)"):\(seconds >= 10 ? "\(seconds)" : "0\(seconds)")"
+            if hour == 0 && seconds == 0 && minute == 0 {
+                  addNotification()
+                isStarted = false
+                print("Timer finished")
+                isFinished = true
+                isFinishedScreen = true
+            }
         }
     }
     

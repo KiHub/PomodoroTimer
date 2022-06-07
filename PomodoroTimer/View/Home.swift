@@ -21,9 +21,16 @@ struct Home: View {
                 VStack(spacing: 20) {
                     ZStack {
                         Circle()
-                            .fill(.white.opacity(0.05))
-                        //    .blur(radius: 45)
+                            .fill(Color("Yellow").opacity(0.15))
+                            .blur(radius: 45)
                             .padding(-40)
+                        
+                        Circle()
+                            .fill(Color("DarkYellow").opacity(0.30))
+                            .blur(radius: 15)
+                            .padding(-40)
+                            .shadow(radius: -10)
+                        
                         
                         Circle()
                             .trim(from: 0, to: pomodoroModel.progress)
@@ -33,7 +40,7 @@ struct Home: View {
                         //MARK: - Shadow
                         Circle()
                             .trim(from: 0, to: pomodoroModel.progress)
-                            .stroke(Color("Yellow"), lineWidth: 10)
+                            .stroke(Color("Yellow"), lineWidth: 20)
                             .blur(radius: 10)
                             .padding(-2)
                         
@@ -45,7 +52,6 @@ struct Home: View {
                             .trim(from: 0, to: pomodoroModel.progress)
                         //   .stroke(style: StrokeStyle(lineCap: .round))
                             .stroke(Color("Yellow").opacity(0.8), style: StrokeStyle(lineWidth: 16, dash: [2, 2]))
-                        // .opacity(0.8), lineWidth: 15)
                         
                         
                         //MARK: - Button
@@ -64,8 +70,6 @@ struct Home: View {
                                 .frame(width: size.width, height: size.height, alignment: .center)
                                 .offset(x: size.height / 2)
                                 .rotationEffect(.init(degrees: pomodoroModel.progress * 360))
-                            
-                            
                         }
                         
                         Text(pomodoroModel.timerStringValue)
@@ -76,6 +80,7 @@ struct Home: View {
                             .animation(.none, value: pomodoroModel.progress)
                         
                     }
+                    .animation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2))
                     .padding(50)
                     .frame(height: proxy.size.width)
                     .rotationEffect(.init(degrees: -90))
@@ -101,36 +106,35 @@ struct Home: View {
                             }
                             .shadow(color: Color("DarkYellow"), radius: 10, x: 0, y: 0)
                     }
-                    
-                    
                 }
-                
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
             
         }
         .padding()
         .background {
-            //            LinearGradient(gradient: Gradient(colors: [Color("DarkYellow").opacity(0.5),Color("BG"), Color("BG")]), startPoint: .top, endPoint: .bottom)
-            //            .ignoresSafeArea()
             Color("BG")
                 .ignoresSafeArea()
         }
         .overlay(content: {
             ZStack {
                 Color.black
-                    .opacity(pomodoroModel.addNewTimer ? 0.55 : 0)
+                    .opacity(pomodoroModel.addNewTimer || pomodoroModel.isFinishedScreen ? 0.55 : 0)
                     .ignoresSafeArea()
                     .onTapGesture {
                         pomodoroModel.hour = 0
                         pomodoroModel.minute = 0
                         pomodoroModel.seconds = 0
                         pomodoroModel.addNewTimer = false
+                        pomodoroModel.isFinishedScreen = false
+                        pomodoroModel.stopTimer()
                     }
                 NewTimerView()
                     .frame(maxHeight: .infinity, alignment: .bottom)
                     .offset(y: pomodoroModel.addNewTimer ? 0 : 400)
-                
+                NewFinishView()
+                    .frame(maxHeight: .infinity, alignment: .bottom)
+                    .offset(y: pomodoroModel.isFinishedScreen ? 0 : 400)
             }
             .animation(.easeInOut, value: pomodoroModel.addNewTimer)
         })
@@ -140,17 +144,86 @@ struct Home: View {
                 pomodoroModel.updateTimer()
             }
         }
-        .alert("✅ Well done!", isPresented: $pomodoroModel.isFinished) {
-            Button("Start new", role: .cancel) {
-                pomodoroModel.stopTimer()
-                pomodoroModel.addNewTimer = true
+    }
+    
+    //MARK: - New Finish Message
+    @ViewBuilder
+    func NewFinishView() -> some View {
+        VStack(spacing: 15) {
+            Text("✅ Well done!")
+                .foregroundColor(Color("DarkYellow"))
+                .font(.title.bold())
+                .padding(.top, 10)
+            
+            HStack(spacing: 15) {
+                Button {
+                    pomodoroModel.isFinishedScreen = false
+                    pomodoroModel.stopTimer()
+                    pomodoroModel.addNewTimer = true
+                } label: {
+                    Text("Start new")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("Yellow"))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background {
+                            Capsule()
+                                .fill(Color("DarkYellow").opacity(0.8))
+                        }
+                }
+                
+                Button {
+                    pomodoroModel.repeatPrepare()
+                    pomodoroModel.isFinishedScreen = false
+                    pomodoroModel.totalSeconds = pomodoroModel.staticTotalSeconds
+                    // pomodoroModel.startTimer()
+                } label: {
+                    Text("Repeat")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("Yellow"))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background {
+                            Capsule()
+                                .fill(Color("DarkYellow").opacity(0.8))
+                        }
+                }
+                
             }
-            Button("Close", role: .destructive) {
+            .padding(.top, 20)
+            
+            Button {
                 pomodoroModel.stopTimer()
+                pomodoroModel.isFinishedScreen = false
+            } label: {
+                Text("Close")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color("Yellow"))
+                    .padding(.vertical)
+                    .padding(.horizontal, 100)
+                    .background {
+                        Capsule()
+                            .fill(Color("BG").opacity(0.8))
+                    }
+                    .padding(.top)
             }
             
         }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background {
+            
+            
+            
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("Yellow"), Color("DarkYellow").opacity(0.9)]), startPoint: .top, endPoint: .bottom))
+                .ignoresSafeArea()
+        }
     }
+    
     
     //MARK: - New Timer
     @ViewBuilder
@@ -179,7 +252,6 @@ struct Home: View {
                         }
                     }
                 
-                
                 Text("\(pomodoroModel.minute ) m")
                     .font(.title3)
                     .fontWeight(.semibold)
@@ -198,8 +270,6 @@ struct Home: View {
                             
                         }
                     }
-                
-                
                 
                 Text("\(pomodoroModel.seconds) s")
                     .font(.title3)
@@ -245,8 +315,10 @@ struct Home: View {
         .padding()
         .frame(maxWidth: .infinity)
         .background {
+            
+            
             RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .fill(Color("Yellow"))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("Yellow"), Color("DarkYellow").opacity(0.9)]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea()
         }
     }
