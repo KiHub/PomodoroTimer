@@ -112,10 +112,12 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
     }
     
     func addNotification() {
+        
         let content = UNMutableNotificationContent()
         content.title = "Pomodoro focus timer"
         content.subtitle = "👏That's great!"
         content.sound = UNNotificationSound.default
+       
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(staticTotalSeconds), repeats: false))
         
