@@ -8,6 +8,8 @@
 import SwiftUI
 
 class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
+    @AppStorage("showOnboarding") var showOnboarding: Bool = true
+   // @Published var showOnboarding: Bool = true
     
     @Published var progress: CGFloat = 1
     @Published var timerStringValue: String = "00:00"
@@ -114,8 +116,8 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
     func addNotification() {
         
         let content = UNMutableNotificationContent()
-        content.title = "Pomodoro focus timer"
-        content.subtitle = "👏That's great!"
+        content.title = "Pocus timer"
+        content.subtitle = "👏 That's great!"
         content.sound = UNNotificationSound.default
        
         

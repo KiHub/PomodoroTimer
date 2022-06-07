@@ -13,6 +13,8 @@
 		0B3E7607284CCD07000854D4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B3E7606284CCD07000854D4 /* Preview Assets.xcassets */; };
 		0B3E7610284CCDF6000854D4 /* PomodoroModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3E760F284CCDF6000854D4 /* PomodoroModel.swift */; };
 		0B3E7612284CCF88000854D4 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3E7611284CCF88000854D4 /* Home.swift */; };
+		0B3E7614284F8239000854D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B3E7613284F8239000854D4 /* LaunchScreen.storyboard */; };
+		0B3E7616284F864E000854D4 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3E7615284F864E000854D4 /* Onboarding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		0B3E7606284CCD07000854D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0B3E760F284CCDF6000854D4 /* PomodoroModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroModel.swift; sourceTree = "<group>"; };
 		0B3E7611284CCF88000854D4 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		0B3E7613284F8239000854D4 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0B3E7615284F864E000854D4 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 				0B3E7611284CCF88000854D4 /* Home.swift */,
 				0B3E75FF284CCD05000854D4 /* PomodoroTimerApp.swift */,
 				0B3E7601284CCD05000854D4 /* ContentView.swift */,
+				0B3E7615284F864E000854D4 /* Onboarding.swift */,
+				0B3E7613284F8239000854D4 /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -147,6 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B3E7614284F8239000854D4 /* LaunchScreen.storyboard in Resources */,
 				0B3E7607284CCD07000854D4 /* Preview Assets.xcassets in Resources */,
 				0B3E7604284CCD07000854D4 /* Assets.xcassets in Resources */,
 			);
@@ -161,6 +168,7 @@
 			files = (
 				0B3E7610284CCDF6000854D4 /* PomodoroModel.swift in Sources */,
 				0B3E7602284CCD05000854D4 /* ContentView.swift in Sources */,
+				0B3E7616284F864E000854D4 /* Onboarding.swift in Sources */,
 				0B3E7612284CCF88000854D4 /* Home.swift in Sources */,
 				0B3E7600284CCD05000854D4 /* PomodoroTimerApp.swift in Sources */,
 			);
@@ -297,6 +305,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -306,7 +315,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Mr.Ki.PomodoroTimer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PomodoroTimer;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -327,6 +336,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -336,7 +346,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Mr.Ki.PomodoroTimer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PomodoroTimer;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
