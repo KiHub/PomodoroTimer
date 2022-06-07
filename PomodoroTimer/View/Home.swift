@@ -11,10 +11,11 @@ struct Home: View {
     @EnvironmentObject var pomodoroModel: PomodoroModel
     var body: some View {
         VStack {
-            Text("Pomodoro focus timer")
+            Text("Focus timer")
                 .foregroundColor(Color("DarkYellow"))
                 .font(.title.bold())
                 .foregroundColor(.white)
+                .shadow(color: Color("Yellow"), radius: 38, x: 5, y: 5)
             
             GeometryReader { proxy in
                 VStack(spacing: 20) {
@@ -27,7 +28,7 @@ struct Home: View {
                         Circle()
                             .trim(from: 0, to: pomodoroModel.progress)
                             .stroke(.white.opacity(0.05), lineWidth: 80)
-                          //  .padding(-40)
+                        //  .padding(-40)
                         
                         //MARK: - Shadow
                         Circle()
@@ -38,11 +39,13 @@ struct Home: View {
                         
                         Circle()
                             .fill(Color("BG"))
+                            .shadow(color: Color("DarkYellow"), radius: 100, x: 0, y: 0)
                         
                         Circle()
                             .trim(from: 0, to: pomodoroModel.progress)
-                            .stroke(Color("Yellow").opacity(0.8), style: StrokeStyle(lineWidth: 10, dash: [4, 1]))
-                               // .opacity(0.8), lineWidth: 15)
+                        //   .stroke(style: StrokeStyle(lineCap: .round))
+                            .stroke(Color("Yellow").opacity(0.8), style: StrokeStyle(lineWidth: 16, dash: [2, 2]))
+                        // .opacity(0.8), lineWidth: 15)
                         
                         
                         //MARK: - Button
@@ -54,18 +57,21 @@ struct Home: View {
                                 .frame(width: 30, height: 30, alignment: .center)
                                 .overlay(content: {
                                     Circle()
-                                        .fill(.white)
+                                        .fill(Color("BG"))
                                         .padding(5)
                                 })
+                                .shadow(color: Color("DarkYellow"), radius: 10, x: 0, y: 0)
                                 .frame(width: size.width, height: size.height, alignment: .center)
                                 .offset(x: size.height / 2)
                                 .rotationEffect(.init(degrees: pomodoroModel.progress * 360))
+                            
                             
                         }
                         
                         Text(pomodoroModel.timerStringValue)
                             .font(.largeTitle.bold())
                             .foregroundColor(Color("DarkYellow"))
+                            .shadow(color: Color("Yellow"), radius: 38, x: 0, y: 0)
                             .rotationEffect(.init(degrees: 90))
                             .animation(.none, value: pomodoroModel.progress)
                         
@@ -95,18 +101,18 @@ struct Home: View {
                             }
                             .shadow(color: Color("DarkYellow"), radius: 10, x: 0, y: 0)
                     }
-
+                    
                     
                 }
-
+                
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
             
         }
         .padding()
         .background {
-//            LinearGradient(gradient: Gradient(colors: [Color("DarkYellow").opacity(0.5),Color("BG"), Color("BG")]), startPoint: .top, endPoint: .bottom)
-    //            .ignoresSafeArea()
+            //            LinearGradient(gradient: Gradient(colors: [Color("DarkYellow").opacity(0.5),Color("BG"), Color("BG")]), startPoint: .top, endPoint: .bottom)
+            //            .ignoresSafeArea()
             Color("BG")
                 .ignoresSafeArea()
         }
@@ -122,7 +128,7 @@ struct Home: View {
                         pomodoroModel.addNewTimer = false
                     }
                 NewTimerView()
-                    .frame(maxHeight: .infinity, alignment: .bottom) 
+                    .frame(maxHeight: .infinity, alignment: .bottom)
                     .offset(y: pomodoroModel.addNewTimer ? 0 : 400)
                 
             }
@@ -142,7 +148,7 @@ struct Home: View {
             Button("Close", role: .destructive) {
                 pomodoroModel.stopTimer()
             }
-
+            
         }
     }
     
@@ -166,50 +172,51 @@ struct Home: View {
                         Capsule()
                             .fill(Color("DarkYellow").opacity(0.8))
                     }
+                    .contentShape(.contextMenuPreview, Capsule())
                     .contextMenu {
                         ContextMenuOptions(maxValue: 12, hint: "h") { value in
                             pomodoroModel.hour = value
                         }
                     }
-            
-//                    .contextMenu {
-//                        ContextMenuOptions(maxValue: 12, hint: "h") { value in
-//                            pomodoroModel.hour = value
-//                        }
-//                    }
+                
                 
                 Text("\(pomodoroModel.minute ) m")
-                                   .font(.title3)
-                                   .fontWeight(.semibold)
-                                   .foregroundColor(Color("Yellow"))
-                                   .padding(.horizontal, 20)
-                                   .padding(.vertical, 12)
-                                   .background {
-                                       Capsule()
-                                           .fill(Color("DarkYellow").opacity(0.8))
-                                   }
-                                   .contextMenu {
-                                       ContextMenuOptions(maxValue: 60, hint: "m") { value in
-                                           pomodoroModel.minute = value
-                                       }
-                                   }
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color("Yellow"))
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background {
+                        Capsule()
+                            .fill(Color("DarkYellow").opacity(0.8))
+                    }
+                
+                    .contentShape(.contextMenuPreview, Capsule())
+                    .contextMenu {
+                        ContextMenuOptions(maxValue: 60, hint: "m") { value in
+                            pomodoroModel.minute = value
+                            
+                        }
+                    }
+                
                 
                 
                 Text("\(pomodoroModel.seconds) s")
-                                   .font(.title3)
-                                   .fontWeight(.semibold)
-                                   .foregroundColor(Color("Yellow"))
-                                   .padding(.horizontal, 20)
-                                   .padding(.vertical, 12)
-                                   .background {
-                                       Capsule()
-                                           .fill(Color("DarkYellow").opacity(0.8))
-                                   }
-                                   .contextMenu {
-                                       ContextMenuOptions(maxValue: 60, hint: "s") { value in
-                                           pomodoroModel.seconds = value
-                                       }
-                                   }
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color("Yellow"))
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background {
+                        Capsule()
+                            .fill(Color("DarkYellow").opacity(0.8))
+                    }
+                    .contentShape(.contextMenuPreview, Capsule())
+                    .contextMenu {
+                        ContextMenuOptions(maxValue: 60, hint: "s") { value in
+                            pomodoroModel.seconds = value
+                        }
+                    }
                 
             }
             .padding(.top, 20)
@@ -218,7 +225,7 @@ struct Home: View {
                 pomodoroModel.startTimer()
                 pomodoroModel.addNewTimer = false
             } label: {
-                Text("Save")
+                Text("Start")
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundColor(Color("Yellow"))
@@ -232,7 +239,7 @@ struct Home: View {
                     .opacity(pomodoroModel.seconds == 0 ? 0.5 : 1)
                     .padding(.top)
             }
-
+            
             
         }
         .padding()
@@ -258,7 +265,7 @@ struct Home: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-       ContentView()
+        ContentView()
             .environmentObject(PomodoroModel())
     }
 }

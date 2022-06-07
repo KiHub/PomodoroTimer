@@ -80,10 +80,10 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
         seconds = (totalSeconds % 60)
         timerStringValue = "\(hour == 0 ? "" : "\(hour):")\(minute >= 10 ? "\(minute)":"0\(minute)"):\(seconds >= 10 ? "\(seconds)" : "0\(seconds)")"
         if hour == 0 && seconds == 0 && minute == 0 {
+            addNotification()
             isStarted = false
             print("Timer finished")
             isFinished = true
-            addNotification()
         }
     }
     
