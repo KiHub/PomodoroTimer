@@ -10,14 +10,9 @@ import SwiftUI
 struct Home: View {
     @EnvironmentObject var pomodoroModel: PomodoroModel
     var body: some View {
-       
+        
         VStack {
-            Text("Do your best")
-                .foregroundColor(Color("DarkYellow"))
-                .opacity(0.5)
-                .font(.title.bold())
-                .foregroundColor(.white)
-                .shadow(color: Color("Yellow"), radius: 38, x: 5, y: 5)
+            Spacer()
             
             GeometryReader { proxy in
                 VStack(spacing: 20) {
@@ -147,10 +142,8 @@ struct Home: View {
             }
         }
         .fullScreenCover(isPresented: $pomodoroModel.showOnboarding) {
-            
             Onboarding(showOnboarding: $pomodoroModel.showOnboarding)
         }
-        
     }
     
     //MARK: - New Finish Message
@@ -198,7 +191,6 @@ struct Home: View {
                                 .fill(Color("DarkYellow").opacity(0.8))
                         }
                 }
-                
             }
             .padding(.top, 20)
             

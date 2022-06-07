@@ -17,9 +17,6 @@ struct Onboarding: View {
             PageView(title: "✌️ It's the easiest way to beat procrastination - just set a timer and work before the notification coming", imageName: "bell", showDismisButton: false, showOnboarding: $showOnboarding)
             
             PageView(title: "🏆 Are you hard working person? Push repeat!", imageName: "checkmark.bubble", showDismisButton: true, showOnboarding: $showOnboarding)
-           
-            
-         
             
         }
         .background(Color("BG"))
@@ -37,14 +34,13 @@ struct PageView: View {
         VStack {
             Spacer()
             Image(systemName: imageName)
-               // .foregroundColor(Color("DarkYellow"))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 150, height: 150)
                 .padding()
                 .foregroundColor(Color("DarkYellow"))
                 .shadow(color: Color("DarkYellow"), radius: 18, x: 0, y: 0)
-                
+            
             
             Text(title)
                 .foregroundColor(Color("Yellow"))
@@ -76,10 +72,3 @@ struct PageView: View {
         }
     }
 }
-
-//
-//struct Onboarding_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Onboarding(showOnboarding: $pomodoroModel.showOnboarding)
-//    }
-//}
