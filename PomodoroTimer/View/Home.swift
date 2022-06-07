@@ -177,6 +177,7 @@ struct Home: View {
                     pomodoroModel.repeatPrepare()
                     pomodoroModel.isFinishedScreen = false
                     pomodoroModel.totalSeconds = pomodoroModel.staticTotalSeconds
+                    pomodoroModel.addNotification()
                     // pomodoroModel.startTimer()
                 } label: {
                     Text("Repeat")
@@ -331,6 +332,7 @@ struct Home: View {
                 onClick(value)
             }
         }
+        
     }
     
 }
