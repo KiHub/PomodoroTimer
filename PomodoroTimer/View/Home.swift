@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct Home: View {
+  
     @EnvironmentObject var pomodoroModel: PomodoroModel
+   
     var body: some View {
         
         VStack {
@@ -210,18 +212,16 @@ struct Home: View {
                     }
                     .padding(.top)
             }
-            
         }
         .padding()
         .frame(maxWidth: .infinity)
         .background {
             
-            
-            
+
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("Yellow"), Color("DarkYellow").opacity(0.9)]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea()
-        }
+        }.animation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2))
     }
     
     
@@ -249,6 +249,9 @@ struct Home: View {
                     .contextMenu {
                         ContextMenuOptions(maxValue: 12, hint: "h") { value in
                             pomodoroModel.hour = value
+                            if value != 0 {
+                               // pomodoroModel.seconds += 1
+                            }
                         }
                     }
                 
@@ -267,7 +270,9 @@ struct Home: View {
                     .contextMenu {
                         ContextMenuOptions(maxValue: 60, hint: "m") { value in
                             pomodoroModel.minute = value
-                            
+                            if value != 0 {
+                              //  pomodoroModel.seconds += 1
+                            }
                         }
                     }
                 
@@ -287,7 +292,6 @@ struct Home: View {
                             pomodoroModel.seconds = value
                         }
                     }
-                
             }
             .padding(.top, 20)
             
@@ -305,22 +309,18 @@ struct Home: View {
                         Capsule()
                             .fill(Color("BG").opacity(0.8))
                     }
-                    .disabled(pomodoroModel.seconds == 0 )
-                    .opacity(pomodoroModel.seconds == 0 ? 0.5 : 1)
+                    .opacity(!(pomodoroModel.hour != 0 || pomodoroModel.minute != 0 || pomodoroModel.seconds != 0 ) ? 0.5 : 1)
                     .padding(.top)
-            }
-            
-            
+            } .disabled(!(pomodoroModel.hour != 0 || pomodoroModel.minute != 0 || pomodoroModel.seconds != 0 ))
         }
         .padding()
         .frame(maxWidth: .infinity)
         .background {
-            
-            
+
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("Yellow"), Color("DarkYellow").opacity(0.9)]), startPoint: .top, endPoint: .bottom))
                 .ignoresSafeArea()
-        }
+        }.animation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2))
     }
     
     //MARK: - Context Menu
@@ -331,9 +331,7 @@ struct Home: View {
                 onClick(value)
             }
         }
-        
     }
-    
 }
 
 struct Home_Previews: PreviewProvider {

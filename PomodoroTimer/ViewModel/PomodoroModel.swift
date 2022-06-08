@@ -10,7 +10,6 @@ import SwiftUI
 class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     
     @AppStorage("showOnboarding") var showOnboarding: Bool = true
-   // @Published var showOnboarding: Bool = true
     
     @Published var progress: CGFloat = 1
     @Published var timerStringValue: String = "00:00"
@@ -120,12 +119,35 @@ class PomodoroModel: NSObject, ObservableObject, UNUserNotificationCenterDelegat
         content.title = "Pocus timer"
         content.subtitle = "👏 That's great!"
         content.sound = UNNotificationSound.default
-       
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(staticTotalSeconds), repeats: false))
         
+        
         UNUserNotificationCenter.current().add(request)
+        afterBlock(seconds: staticTotalSeconds) {
+            self.cleanProgress()
+        }
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() += staticTotalSeconds) {
+//            cleanProgress()
+//        }
         
     }
+    
+    func afterBlock(seconds: Int, queue: DispatchQueue = DispatchQueue.global(),
+                    completion: @escaping () -> ()) {
+        queue.asyncAfter(deadline: .now() + .seconds(seconds)) {
+            completion()
+        }
+    }
+    
+    func cleanProgress() {
+        DispatchQueue.main.async {
+            self.timerStringValue = "00:00"
+            self.progress = 1
+            
+        }
+    }
+    
 }
 
